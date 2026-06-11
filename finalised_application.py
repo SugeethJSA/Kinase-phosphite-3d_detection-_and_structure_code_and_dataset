@@ -523,7 +523,7 @@ def train_model(train_loader, val_loader, model, optimizer, batch_size, num_epoc
                 optimizer.zero_grad()
                 with torch.set_grad_enabled(phase=='train'):
                     outputs = model.forward(motif, coords, version)
-                    if this_loss=='phylo' and version=='seq-coord':
+                    if this_loss=='phylo':
                         loss = phylo_error(outputs,labels)
                     elif this_loss!='phylo':
                         criterion = nn.BCELoss() # BCE loss is the usual loss to use.
