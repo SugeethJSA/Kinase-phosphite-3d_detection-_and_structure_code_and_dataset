@@ -16,6 +16,9 @@ class Model(nn.Module):
         # In case they want to run without Siamese Embeddings (sequence only)
         self.fc1_seq = nn.Linear(330, 512)
         
+        # In case they want to run without sequence features (coordinates only)
+        self.fc1_coord = nn.Linear(100, 512)
+        
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(0.3)
         self.sigmoid = nn.Sigmoid()
@@ -32,6 +35,8 @@ class Model(nn.Module):
             x = self.relu(self.fc1(combined))
         elif version == 'seq-only':
             x = self.relu(self.fc1_seq(motif_flat))
+        elif version == 'coord-only':
+            x = self.relu(self.fc1_coord(coords))
         else:
             raise ValueError(f"Unknown version: {version}")
             
