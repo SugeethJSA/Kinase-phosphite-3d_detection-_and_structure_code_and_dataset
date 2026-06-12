@@ -1,3 +1,7 @@
+import warnings
+from sklearn.exceptions import UndefinedMetricWarning
+warnings.filterwarnings('ignore', category=UndefinedMetricWarning)
+warnings.filterwarnings('ignore', category=UserWarning)
 import os
 import time
 import copy
@@ -233,7 +237,7 @@ my_loss = 'phylo'
 
 my_stopper = 'loss'
 my_batch = 32
-my_epochs = 1
+my_epochs = 40
 my_lr = 0.0015
 
 my_reduction = 'sum'

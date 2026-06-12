@@ -1,3 +1,7 @@
+import warnings
+from sklearn.exceptions import UndefinedMetricWarning
+warnings.filterwarnings('ignore', category=UndefinedMetricWarning)
+warnings.filterwarnings('ignore', category=UserWarning)
 import os
 import math
 import numpy as np
@@ -86,7 +90,7 @@ def plot_performance_radar(y_test, y_score, fams, save_path=None):
     """
     # Find top 5 families based on sample counts
     counts = y_test.sum(axis=0)
-    top_5_idc = np.argsort(counts)[-5:][::-np.argsort(counts)[-5:]]
+    top_5_idc = np.argsort(counts)[-5:][::-1]
     top_5_fams = [fams[idx] for idx in top_5_idc]
     
     # Calculate metrics for each of the top 5
@@ -523,8 +527,8 @@ def plot_survival_dashboard(y_score, fams, save_path_km=None, save_path_cox=None
                 df.loc[~high_risk_mask, 'Observed_Event'], 
                 label='Low Predicted Phosphorylation Activity (Low Risk)')
     
-    kmf_high.plot_survival_probability(ax=ax, color='#e41a1c', linewidth=2.0, alpha=0.9)
-    kmf_low.plot_survival_probability(ax=ax, color='#377eb8', linewidth=2.0, alpha=0.9)
+    kmf_high.plot_survival_function(ax=ax, color='#e41a1c', linewidth=2.0, alpha=0.9)
+    kmf_low.plot_survival_function(ax=ax, color='#377eb8', linewidth=2.0, alpha=0.9)
     
     # Run Log-Rank statistical test
     results = logrank_test(df.loc[high_risk_mask, 'Survival_Months'],
@@ -555,7 +559,7 @@ def plot_survival_dashboard(y_score, fams, save_path_km=None, save_path_cox=None
     cph.fit(cph_df, duration_col='Survival_Months', event_col='Observed_Event')
     
     plt.figure(figsize=(8, 4))
-    cph.plot(color='#2b5c8f')
+    cph.plot()
     plt.title('Multivariate Cox Proportional Hazards Model (Kinase Biomarkers)', fontsize=13, fontweight='bold', pad=15)
     plt.xlabel('Log Hazard Ratio (Coefficient)', fontsize=11, labelpad=10)
     
