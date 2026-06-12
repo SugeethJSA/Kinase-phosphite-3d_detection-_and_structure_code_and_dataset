@@ -1,2 +1,11 @@
+# Datasets and Archives
 archive/
 data/
+
+# Python caches and notebook checkpoints
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.DS_Store
+
+# Local outputs and figures
